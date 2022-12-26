@@ -1,14 +1,15 @@
 import sqlite3
+from utils import Database
 from PyQt5 import QtWidgets, QtGui
 
-class MainWindow(QtWidgets.QMainWindow):
+class MainWindow(QtWidgets.QMainWindow, database):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Guild Wars 2 Item Prices")
         self.setWindowIcon(QtGui.QIcon("gw2_icon.png"))
 
         # Créez une connection à la base de données SQLite
-        self.conn = sqlite3.connect("prices.db")
+        self.conn = database
         self.cursor = self.conn.cursor()
 
         # Récupérez la liste de tous les objets de la base de données
@@ -55,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    window = MainWindow()
+    database = Database("prices.db")
+    window = MainWindow(database)
     app.exec_()
 
